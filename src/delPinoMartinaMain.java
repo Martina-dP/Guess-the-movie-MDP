@@ -30,7 +30,7 @@ public class delPinoMartinaMain {
         while (!end) {
 
             System.out.println("Puntos actuales: " + player.getPoints());
-            System.out.println("Título actual: " + game.hiddenTitle());
+            System.out.println("Título actual: " );
             System.out.println("Letras incorrectas: " );
             System.out.println("¿Qué deseas hacer?");
             System.out.println("1 = Adivinar una letra");

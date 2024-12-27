@@ -14,6 +14,12 @@ public class delPinoMartinaGame {
     private ArrayList<Character> correctas = new ArrayList<>();
     private ArrayList<Character> incorrectas = new ArrayList<>();
 
+    public delPinoMartinaGame() {
+        this.movieTitle = "";
+        this.tries = 10;
+        this.guessedTitle = new StringBuilder();
+    }
+
     public int getTries() {
         return tries;
     }
@@ -49,21 +55,32 @@ public class delPinoMartinaGame {
         }
     }
 
-    public String hiddenTitle() {
-        guessedTitle = new StringBuilder();
-
-        for (char x : movieTitle.toCharArray()) {
-            if (Character.isLetter(x)) {
+    public void hiddenTitle() {
+        guessedTitle.setLength(0);
+        for (char c : movieTitle.toCharArray()) {
+            if (Character.isLetter(c)) {
                 guessedTitle.append('*');
             } else {
-                guessedTitle.append(x);
+                guessedTitle.append(c);
             }
         }
-        return guessedTitle.toString();
     }
 
     public void guessLetter(String letter) {
+        letter = letter.toLowerCase();
+        if (correctas.contains(letter.charAt(0)) || incorrectas.contains(letter.charAt(0))){
+            System.out.println("Esa letra ya la has dicho, intenta con otra!");
+            return;
+        }
+        if (movieTitle.contains(letter)) {
+            correctas.add(letter.charAt(0));
 
+            System.out.println("Correcto");
+        } else {
+            incorrectas.add(letter.charAt(0));
+            tries--;
+            System.out.println("Incorrecto. Intentos restantes: " + tries);
+        }
     }
 
 }
