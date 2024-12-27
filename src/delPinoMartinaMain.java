@@ -30,8 +30,8 @@ public class delPinoMartinaMain {
         while (!end) {
 
             System.out.println("Puntos actuales: " + player.getPoints());
-            System.out.println("Título actual: " + game.getGuessedTitle());
-            System.out.println("Letras incorrectas: " + game);
+            System.out.println("Título actual: " + game.hiddenTitle());
+            System.out.println("Letras incorrectas: " );
             System.out.println("¿Qué deseas hacer?");
             System.out.println("1 = Adivinar una letra");
             System.out.println("2 = Adivinar el título de la película");
@@ -44,7 +44,6 @@ public class delPinoMartinaMain {
                 case 1: {
                     System.out.print("Introduce una letra: ");
                     String inputLetter = input.nextLine().toLowerCase();
-                    game.guessLetter(inputLetter);
                     break;
                 }
                 case 2: {
