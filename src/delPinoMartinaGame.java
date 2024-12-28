@@ -7,21 +7,23 @@ import java.util.Scanner;
 public class delPinoMartinaGame {
 
     Scanner input = new Scanner(System.in);
-    String filePath = "./src/dataNamesMovies.txt";
-    private int tries = 10;
+    private final String FILE_PATH= "./src/dataNamesMovies.txt";
+    private final int TRIES = 10;
+    private int triesLeft ;
     private String movieTitle;
     private StringBuilder guessedTitle;
     private ArrayList<Character> correctas = new ArrayList<>();
     private ArrayList<Character> incorrectas = new ArrayList<>();
+    private ArrayList<Character> used = new ArrayList<>();
 
     public delPinoMartinaGame() {
         this.movieTitle = "";
-        this.tries = 10;
+        this.triesLeft = TRIES;
         this.guessedTitle = new StringBuilder();
     }
 
     public int getTries() {
-        return tries;
+        return triesLeft;
     }
     public String getMovieTitle() {
         return movieTitle;
@@ -30,9 +32,13 @@ public class delPinoMartinaGame {
         return guessedTitle;
     }
 
+    public ArrayList<Character> getIncorrectas() {
+        return incorrectas;
+    }
+
     public void getRandomMovie() {
         try {
-            File file = new File(filePath);
+            File file = new File(FILE_PATH);
             Scanner scanner = new Scanner(file);
 
             List<String> movies = new ArrayList<>();
@@ -66,20 +72,23 @@ public class delPinoMartinaGame {
         }
     }
 
-    public void guessLetter(String letter) {
-        letter = letter.toLowerCase();
-        if (correctas.contains(letter.charAt(0)) || incorrectas.contains(letter.charAt(0))){
-            System.out.println("Esa letra ya la has dicho, intenta con otra!");
-            return;
-        }
-        if (movieTitle.contains(letter)) {
-            correctas.add(letter.charAt(0));
+    public boolean guessLetter(char letter) {
+        letter = Character.toLowerCase(letter);
 
-            System.out.println("Correcto");
+        if (used.contains(letter)) {
+            System.out.println("Ya intentaste esta letra. Intenta con otra.");
+            return false;
+        }
+        used.add(letter);
+        if (movieTitle.indexOf(letter) >= 0) {
+            correctas.add(letter);
+            System.out.println("¡Correcto!");
+            return true;
         } else {
-            incorrectas.add(letter.charAt(0));
-            tries--;
-            System.out.println("Incorrecto. Intentos restantes: " + tries);
+            incorrectas.add(letter);
+            triesLeft--;
+            System.out.println("Incorrecto. La letra no está en el título.");
+            return false;
         }
     }
 
