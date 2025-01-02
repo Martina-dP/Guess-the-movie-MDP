@@ -1,11 +1,11 @@
-import java.io.File;
 import java.util.Scanner;
 
 public class delPinoMartinaMain {
 
     Scanner input = new Scanner(System.in);
     delPinoMartinaGame game = new delPinoMartinaGame();
-    delPinoMartinaPlayer player  = new delPinoMartinaPlayer();
+    delPinoMartinaPlayer player;
+    delPinoMartinaRanking ranking = new delPinoMartinaRanking();
 
     public static void main(String[] args) {
         delPinoMartinaMain program = new delPinoMartinaMain();
@@ -16,9 +16,11 @@ public class delPinoMartinaMain {
         try {
             game.getRandomMovie();
             game.hiddenTitle();
-            System.out.println("Bienvenido a Guess the movie" );
             saveNickName();
+            System.out.println("Bienvenido a Guess the movie" );
             Menu();
+
+            checkRanking();
         } catch (Exception e) {
             System.err.println("Error al cargar el archivo de películas: " + e.getMessage());
         }
@@ -67,9 +69,31 @@ public class delPinoMartinaMain {
 
     public void saveNickName() {
         System.out.print("Introduce un nickname para el juego: ");
-        String name = input.nextLine().trim();
-        player.setName(name);
-        System.out.println("Nickname guardado: " + player.getName());
+        String nickname = input.nextLine().trim();
+
+        while (nickname.isEmpty()) {
+            System.out.print("El nickname no puede estar vacío. Introduce un nickname: ");
+            nickname = input.nextLine().trim();
+        }
+
+        if (player == null) {
+            player = new delPinoMartinaPlayer(nickname, 0);
+        }
+
+        boolean existe = false;
+        for (delPinoMartinaPlayer p : ranking.ranking) {
+            if (p.getName().equals(nickname)) {
+                existe = true;
+                break;
+            }
+        }
+
+        if (!existe) {
+            ranking.addPlayerToRanking(player);
+            System.out.println("Nickname guardado: " + player.getName());
+        } else {
+            System.out.println("Ese nickname ya está en el ranking. Por favor, elige otro.");
+        }
     }
 
     public void oneLetter() {
@@ -107,5 +131,29 @@ public class delPinoMartinaMain {
 
     }
 
+    public void checkRanking() {
+        System.out.println("Verificando si entras en el ranking...");
+
+        if (ranking.ranking.size() < 5 || player.getPoints() > ranking.ranking.get(ranking.ranking.size() - 1).getPoints()) {
+            boolean existe = false;
+            for (delPinoMartinaPlayer p : ranking.ranking) {
+                if (p.getName().equals(player.getName())) {
+                    existe = true;
+                    break;
+                }
+            }
+
+            if (!existe) {
+                ranking.addPlayerToRanking(player);
+                System.out.println("¡Felicidades! Has entrado en el ranking.");
+            } else {
+                System.out.println("¡Ya estás en el ranking!");
+            }
+        } else {
+            System.out.println("No has entrado en el ranking. ¡Mejor suerte la próxima vez!");
+        }
+
+        ranking.displayRanking();
+    }
 
 }

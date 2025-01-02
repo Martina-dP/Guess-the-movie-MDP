@@ -1,11 +1,13 @@
-public class delPinoMartinaPlayer {
+import java.io.Serializable;
+
+public class delPinoMartinaPlayer implements Serializable {
 
     private int points;
     private String name;
 
-    public delPinoMartinaPlayer() {
-        this.points = 0;
-        this.name = "";
+    public delPinoMartinaPlayer(String name, int points) {
+        this.points = points;
+        this.name = name;
     }
 
     public int getPoints() {

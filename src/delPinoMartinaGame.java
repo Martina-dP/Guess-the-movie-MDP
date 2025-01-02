@@ -77,7 +77,8 @@ public class delPinoMartinaGame {
             return false;
         }
         used.add(letter);
-        if (movieTitle.indexOf(letter) >= 0) {
+        String movieTitleLower = movieTitle.toLowerCase();
+        if (movieTitleLower.indexOf(letter) >= 0) {
             correctas.add(letter);
             updateLetterTitle(letter);
             System.out.println("¡Correcto!");
@@ -100,7 +101,9 @@ public class delPinoMartinaGame {
     }
 
     public boolean guessTitle(String title) {
-        if (title.equalsIgnoreCase(movieTitle)){
+        String normalizedTitle = title.trim().toLowerCase();
+        String normalizedMovieTitle = movieTitle.trim().toLowerCase();
+        if (normalizedTitle.equals(normalizedMovieTitle)) {
             guessedTitle = new StringBuilder(movieTitle);
             triesLeft = 0;
             return true;
@@ -108,7 +111,6 @@ public class delPinoMartinaGame {
             triesLeft = 0;
             return false;
         }
-
     }
 
 }
