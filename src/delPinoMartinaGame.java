@@ -1,13 +1,10 @@
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.Scanner;
+import java.util.*;
 
 public class delPinoMartinaGame {
 
     Scanner input = new Scanner(System.in);
-    private final String FILE_PATH= "./src/dataNamesMovies.txt";
+    private final String FILE_PATH= "dataNamesMovies.txt";
     private final int TRIES = 10;
     private int triesLeft ;
     private String movieTitle;
@@ -82,7 +79,9 @@ public class delPinoMartinaGame {
         used.add(letter);
         if (movieTitle.indexOf(letter) >= 0) {
             correctas.add(letter);
+            updateLetterTitle(letter);
             System.out.println("¡Correcto!");
+            triesLeft--;
             return true;
         } else {
             incorrectas.add(letter);
@@ -90,6 +89,26 @@ public class delPinoMartinaGame {
             System.out.println("Incorrecto. La letra no está en el título.");
             return false;
         }
+    }
+
+    private void updateLetterTitle(char letter) {
+        for (int i = 0; i < movieTitle.length(); i++) {
+            if (movieTitle.charAt(i) == letter) {
+                guessedTitle.setCharAt(i, letter);
+            }
+        }
+    }
+
+    public boolean guessTitle(String title) {
+        if (title.equalsIgnoreCase(movieTitle)){
+            guessedTitle = new StringBuilder(movieTitle);
+            triesLeft = 0;
+            return true;
+        } else {
+            triesLeft = 0;
+            return false;
+        }
+
     }
 
 }

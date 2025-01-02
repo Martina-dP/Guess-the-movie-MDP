@@ -1,11 +1,9 @@
 import java.io.File;
-import java.time.LocalDate;
 import java.util.Scanner;
 
 public class delPinoMartinaMain {
 
     Scanner input = new Scanner(System.in);
-    String filePath = "./src/dataNamesMovies.txt";
     delPinoMartinaGame game = new delPinoMartinaGame();
     delPinoMartinaPlayer player  = new delPinoMartinaPlayer();
 
@@ -30,9 +28,10 @@ public class delPinoMartinaMain {
         int opcion ;
         boolean end = false;
 
-        while (!end) {
+        while (!end && game.getTries() > 0) {
 
             System.out.println("Título actual: " + game.getGuessedTitle());
+            System.out.println("Intentos: " + game.getTries());
             System.out.println("Puntos actuales: " + player.getPoints());
             System.out.println("Letras incorrectas: " + game.getIncorrectas());
             System.out.println("[1] Adivinar una letra");
@@ -57,18 +56,8 @@ public class delPinoMartinaMain {
                     break;
                 }
                 case 2: {
-                    System.out.print("Introduce el título completo: ");
-                    String title = input.nextLine();
-
-//                    if (game.guessTitle(title)) {
-//                        System.out.println("¡Correcto! Has adivinado el título.");
-//                        player.addPoints(20);
-//                        return true;
-//                    } else {
-//                        System.out.println("Incorrecto. Ese no es el título.");
-//                        player.addPoints(-20);
-//                        return true;
-//                    }
+                    guessedTitle();
+                    end = true;
                     break;
                 }
                 case 3: {
@@ -90,5 +79,24 @@ public class delPinoMartinaMain {
         player.setName(name);
         System.out.println("Nickname guardado: " + player.getName());
     }
+
+    public void guessedTitle() {
+        System.out.print("Introduce el título completo: ");
+        String title = input.nextLine();
+
+        if (game.guessTitle(title)) {
+            System.out.println("¡Correcto! Has adivinado el título.");
+            System.out.println("Juego finalizado.");
+            player.addPoints(20);
+            System.out.println("Tus puntos finales: " + player.getPoints());
+        } else {
+            System.out.println("Incorrecto. Ese no es el título.");
+            System.out.println("Juego finalizado, el titulo era: " + game.getMovieTitle());
+            player.addPoints(-20);
+            System.out.println("Tus puntos finales: " + player.getPoints());
+        }
+
+    }
+
 
 }
