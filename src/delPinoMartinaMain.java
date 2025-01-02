@@ -44,15 +44,7 @@ public class delPinoMartinaMain {
 
             switch (opcion) {
                 case 1: {
-                    System.out.print("Introduce una letra: ");
-                    char letter = input.nextLine().toLowerCase().charAt(0);
-
-                    if (game.guessLetter(letter)) {
-                        player.addPoints(10);
-                    }
-                    else {
-                        player.addPoints(-10);
-                    }
+                    oneLetter();
                     break;
                 }
                 case 2: {
@@ -78,6 +70,23 @@ public class delPinoMartinaMain {
         String name = input.nextLine().trim();
         player.setName(name);
         System.out.println("Nickname guardado: " + player.getName());
+    }
+
+    public void oneLetter() {
+        System.out.print("Introduce una letra: ");
+        char letter = input.nextLine().toLowerCase().charAt(0);
+        if (!Character.isAlphabetic(letter)) {
+            System.out.print("El caracter introducido no es una letra del abecedario");
+            System.out.print("Vuelve a introduce una letra: ");
+            letter = input.nextLine().toLowerCase().charAt(0);
+        }
+
+        if (game.guessLetter(letter)) {
+            player.addPoints(10);
+        }
+        else {
+            player.addPoints(-10);
+        }
     }
 
     public void guessedTitle() {
